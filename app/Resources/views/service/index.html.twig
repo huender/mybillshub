@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container" id="services">
+        <h2>Service list</h2>
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="md-form">
+                    <input type="text" class="search form-control" placeholder="Search here" />
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <button class="sort btn btn-indigo" data-sort="id">
+                    Sort by id
+                </button>
+                <button class="sort btn btn-indigo" data-sort="name">
+                    Sort by name
+                </button>
+                <button class="sort btn btn-indigo" data-sort="category">
+                    Sort by category
+                </button>
+            </div>
+        </div>
+        <table id="serviceTable" class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Payment</th>
+                <th>Is recurrence?</th>
+                <th>Category name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody class="list">
+            {% for service in services %}
+                <tr>
+                    <td class="id"><a href="{{ path('service_show', { 'id': service.id }) }}">{{ service.id }}</a></td>
+                    <td class="name">{{ service.name }}</td>
+                    <td>
+                        {% if service.isRecurrence %}
+                            Day {{ service.paymentDay }}
+                        {% else %}
+                            {{ service.paymentDate|date('F d, Y') }}
+                        {% endif %}
+                    </td>
+                    <td class="isRecurrence">{% if service.isRecurrence %}Yes{% else %}No{% endif %}</td>
+                    <td class="category">
+                        {% if service.category %}
+                            {{ service.category.name }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="blue-text" href="{{ path('service_show', { 'id': service.id }) }}"><i class="fa fa-user"></i></a>
+                        <a class="teal-text" href="{{ path('service_edit', { 'id': service.id }) }}"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <ul>
+            <li>
+                <a href="{{ path('service_new') }}">Create a new entry</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('node_modules/list.js/dist/list.js') }}"></script>
+    <script>
+        var options = {
+            valueNames: ['id', 'name', 'isRecurrence', 'category']
+        };
+
+        var serviceList = new List('services', options);
+    </script>
+    <script type="text/javascript" src="{{ asset('plugins/jquery-pagination/scripts/jquery.table.hpaging.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#serviceTable").hpaging({
+                "limit": 10
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row" style="margin-right: 0px;">
+        <div class="offset-xs-4 col-xs-4">
+            <!--Form with header-->
+            <div class="card card-img-top container">
+                <div class="card-block">
+
+                    <!--Error message-->
+                    {% if error %}
+                        <div class="text-xs-center" style="margin: 5px 0px 10px 0px;">
+                            <div class="navbar-dark bg-danger" style="padding: 5px;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        </div>
+                    {% endif %}
+
+                    <!--Header-->
+                    <div class="form-header">
+                        <h3><i class="fa fa-lock"></i> Login</h3>
+                    </div>
+
+                    <form action="{{ path('login') }}" method="post">
+
+                        <!--Body-->
+                        <div class="md-form">
+                            {#<i class="fa fa-envelope prefix"></i>#}
+                            <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" {% if last_username == "" %}autofocus{% endif %} />
+                            <label for="form2">Your username</label>
+                        </div>
+
+                        <div class="md-form">
+                            {#<i class="fa fa-lock prefix"></i>#}
+                            <input type="password" id="password" name="_password" class="form-control" {% if last_username != "" %}autofocus{% endif %}/>
+                            <label for="form4">Your password</label>
+                        </div>
+
+                        <div class="text-xs-center">
+                            <button type="submit" class="btn btn-deep-purple">Login</button>
+                        </div>
+                    </form>
+
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer">
+                    <div class="options">
+                        <p>Not a member? <a href="{{ path('user_registration') }}" >Sign Up</a></p>
+                        <p>Forgot <a href="{{ path('fos_user_resetting_request') }}">Password?</a></p>
+                    </div>
+                </div>
+
+            </div>
+            <!--/Form with header-->
+        </div>
+    </div>
+{% endblock %}

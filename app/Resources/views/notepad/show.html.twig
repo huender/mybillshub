@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="card text-xs-center">
+            <div class="card-header default-color-dark white-text">
+                notepad
+            </div>
+            <div class="card-block">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ notepad.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Annotation</th>
+                        <td>{{ notepad.annotation }}</td>
+                    </tr>
+                    {% if notepad.service %}
+                        <tr>
+                            <th>Service</th>
+                            <td>{{ notepad.service.name }}</td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <th>User</th>
+                        <td>{{ notepad.user }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a href="{{ path('notepad_index') }}" class="btn btn-default">Back to the list</a>
+                <a href="{{ path('notepad_edit', { 'id': notepad.id }) }}" class="btn btn-blue-grey">Edit</a>
+            </div>
+            <div class="card-footer text-muted default-color-dark white-text">
+                <p>Created by: <i>{{ notepad.user.username }}</i></p>
+            </div>
+        </div>
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+        {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

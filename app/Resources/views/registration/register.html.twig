@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="row" style="margin-right: 0px;">
+    <div class="offset-xs-4 col-xs-4">
+        <!--Form with header-->
+        <div class="card card-img-top container">
+            <div class="card-block">
+
+                <!--Header-->
+                <div class="form-header">
+                    <h3><i class="fa fa-user-plus"></i> Register</h3>
+                </div>
+
+                {{ form_start(form) }}
+
+                <!--Body-->
+                <div class="md-form">
+                    {{ form_row(form.username) }}
+                </div>
+                <div class="md-form">
+                    {{ form_row(form.email) }}
+                </div>
+
+                <div class="md-form">
+                    {{ form_row(form.plainPassword.first) }}
+                </div>
+
+                <div class="md-form">
+                    {{ form_row(form.plainPassword.second) }}
+                </div>
+
+                <div class="text-xs-center">
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </div>
+
+                {{ form_end(form) }}
+
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <div class="options">
+                    <p><a href="{{ path('login') }}" >Login</a></p>
+                </div>
+            </div>
+        </div>
+        <!--/Form with header-->
+    </div>
+</div>
+{% endblock %}

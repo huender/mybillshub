@@ -1,0 +1,220 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        .link-service-index{
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% import _self as self %}
+    <div class="container">
+        <div class="card card-primary text-xs-center z-depth-2">
+            <div class="card-block">
+                <p class="white-text">List of categories</p>
+            </div>
+        </div>
+        <ul class="list-group">
+            {% for category in categories %}
+            <li class="list-group-item">
+                <span class="tag bg-primary label-pill pull-xs-right">Amount {{ category.services.count }}</span>
+                <span class="tag bg-success label-pill pull-xs-right" style="margin: 0px 2px">Paid out {{ category.countPaidServices }}</span>
+                <span class="tag bg-danger label-pill pull-xs-right">Unpaid {{ category.countUnpaidServices }}</span>
+                <a class="category" href="#category_{{ category.id }}" role="button" data-toggle="collapse">
+                    {% if category.services.count > 0 %}
+                        <i class="fa fa-level-down"></i>
+                    {% endif %}
+                    {{ category.name }}
+                </a>
+                <div class="collapse" id="category_{{ category.id }}" role="tabpanel">
+                    {% for service in category.services %}
+                        <br>
+                        <p>
+                            <a class="link-service-index" href="{{ path('service_show', {'id': service.id}) }}" target="_blank" title="Show service">
+                                <i class="fa fa-eye"></i>
+                                <span>{{ service.name }}
+                                </span>
+                                {% if service.isRecurrence %}
+                                    <span>
+                                        - {{ service.paymentDay }}
+                                    </span>
+                                {% else %}
+                                    <span>
+                                        - {{ service.paymentDate|date('F d, Y') }}
+                                    </span>
+                                {% endif %}
+                            </a>
+                            <i class="fa fa-check check_{{ service.id }}" style="color: green; {% if not service.isActive %}display: none{% endif %}"></i>
+                            <i class="fa fa-times not_check_{{ service.id }}" style="color: red; {% if service.isActive %}display: none{% endif %}"></i>
+
+                            {% if service.url %}
+                                {#<button type="button" class="btn btn-info pull-xs-right modalButton" style="margin-top: -10px;" data-toggle="modal" data-target="#modal_{{ service.id }}">Access</button>#}
+                                <a class="btn btn-info pull-xs-right modalButton" style="margin-top: -10px;" target="_blank" href="{{ service.url }}">External access</a>
+                            {% endif %}
+
+                            <button type="button" class="btn btn-warning-outline pull-xs-right done not_check_{{ service.id }}" style="margin-top: -10px;{% if service.isActive %}display: none{% endif %}" data-service="{{ service.id }}" data-active="{{ service.isActive }}">Already paid!</button>
+                            <button type="button" class="btn btn-success pull-xs-right cancel check_{{ service.id }}" style="margin-top: -10px;{% if not service.isActive %}display: none{% endif %}" data-service="{{ service.id }}" data-active="{{ service.isActive }}">Paid out</button>
+
+                            {{ self.modal(service) }}
+                        </p>
+                    {% endfor %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="modal fade addNotepadModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {#<div class="modal-header">#}
+                    {#<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+                    {#<h4 class="modal-title">Notepad creation</h4>#}
+                {#</div>#}
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}
+
+{% macro modal(entity) %}
+    <!-- Modal -->
+    <div class="modal fade" id="modal_{{ entity.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document" style="width: 100%; margin: 10px;" >
+            <!--Content-->
+            <div class="modal-content servicesModal">
+                <!--Header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        {#{{ entity.name }}<span>{% if entity.payment %} - {{ entity.payment|date}}{% endif %}</span>#}
+                    </h4>
+                    {#<a class="btn btn-info refresh-iframe pull-right" href="javascript:;">Refresh</a>#}
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <iframe src="{{ entity.url }}" width="100%" height="100%" class="iframe_{{ entity.id }}">
+                    </iframe>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <a class="btn btn-info add-notepad" href="javascript:;" data-service="{{ entity.id }}">Add notepad</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- /.Live preview-->
+{% endmacro %}
+
+{% block javascripts %}
+<script type="application/javascript">
+    $(document).ready(function(){
+        $('.modalButton').on('click', function(){
+            $('iframe').attr('height', ($(window).height() / 1.5));
+            $('.servicesModal').css('width', ($(window).width() / 1.01));
+            modalFunctions();
+        });
+
+        $('.done').on('click', function(){
+            if($(this).data('active') != 1){
+                var $this = $(this);
+                $.ajax({
+                    url: "{{ path('service_done', {'id': '__ID__'}) }}".replace('__ID__', $this.data('service')),
+                    beforeSend: function(){
+                        $.blockUI({ css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .5,
+                            color: '#fff',
+                        }, message: null });
+                    }
+                }).done(function(data) {
+                    var $checkIcon = $this.parent().find('.check_'+data.service);
+                    var $notCheckIcon = $this.parent().find('.not_check_'+data.service);
+
+                    $checkIcon.css('display', 'initial');
+                    $notCheckIcon.css('display', 'none');
+
+                    $checkIcon.data('active', 1);
+                    $notCheckIcon.data('active', 1);
+
+                    $.unblockUI();
+                }).error(function(data){
+                    $.unblockUI();
+                    alert('ocorreu um erro!');
+                });
+            }
+        })
+
+        $('.cancel').on('click', function(){
+            if($(this).data('active') == 1){
+                var $this = $(this);
+                $.ajax({
+                    url: "{{ path('service_cancel', {'id': '__ID__'}) }}".replace('__ID__', $this.data('service')),
+                    beforeSend: function(){
+                        $.blockUI({ css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .5,
+                            color: '#fff'
+                        },message: null });
+                    }
+                }).done(function(data) {
+                    var $notCheckIcon = $this.parent().find('.not_check_'+data.service);
+                    var $checkIcon = $this.parent().find('.check_'+data.service);
+
+                    $checkIcon.css('display', 'none');
+                    $notCheckIcon.css('display', 'initial');
+
+                    $checkIcon.data('active', '');
+                    $notCheckIcon.data('active', '');
+
+                    $.unblockUI();
+                }).error(function(data){
+                    $.unblockUI();
+                    alert('ocorreu um erro!');
+                });
+            }
+        })
+
+        function modalFunctions(){
+            var NotepadModal = function(){
+                return {
+                    init: function(modalUrl, $modalContent){
+                        $modalContent.find('.modal-body').load(modalUrl, function(response, status){
+                            if(response != '' && status == 'success'){
+                                $modalContent.modal();
+                            }else{
+                                alert('Erro');
+                            }
+                        });
+                    }
+                }
+            }();
+
+            $('.add-notepad').on('click', function(){
+                NotepadModal.init(
+                        '{{ path("notepad_new", { 'service' : '__SERVICE__' }) }}'.replace("__SERVICE__", $(this).data('service')),
+                        $('.addNotepadModal')
+                );
+            })
+        }
+    });
+</script>
+{% endblock %}

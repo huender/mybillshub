@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="card text-xs-center">
+        <div class="card-header default-color-dark white-text">
+            Notepad creation
+        </div>
+        <div class="card-block">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="Create" class="btn btn-primary btn-sm" />
+            {{ form_end(form) }}
+
+        </div>
+        <div class="card-footer text-muted default-color-dark white-text">
+            <p>Creating by: <i>{{ app.user.username }}</i></p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('form').on('submit', function(e){
+            var values = {};
+            $.each( $(this).serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+
+            $this = $(this);
+
+            $.ajax({
+                type: "POST",
+                url: '{{ path('notepad_new', {'service': form.vars.value.service.id }) }}',
+                data: values,
+                success: function(data){
+                    $this.parents('.modal').modal('hide');
+                },
+                error: function(data){
+                    alert('error');
+                }
+            });
+            e.preventDefault();
+            return false;
+        })
+    })
+</script>

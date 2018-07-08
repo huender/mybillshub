@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+
+        <section class="m-b-4">
+            <div class="author-box">
+                {% if results['categories'] is empty and (results['users'] is not defined or results['users'] is empty) and results['services'] is empty %}
+                    <span>Nenhum resultado encontrado</span>
+                {% endif %}
+                    {% if results['categories'] is not empty %}
+                        <hr>
+                        {% for key, category in results['categories'] %}
+                            <div class="row">
+                                <!--Author Data-->
+                                <div class=" col-xs-12 col-sm-10">
+                                    <p><span class="tag indigo">Category</span> <strong>{{ category.name }} </strong></p>
+
+                                    <div class="personal-sm">
+                                        <a class="email-ic"><i class="fa fa-home"> </i></a>
+                                        <a class="fb-ic"><i class="fa fa-facebook"> </i></a>
+                                        <a class="tw-ic"><i class="fa fa-twitter"> </i></a>
+                                        <a class="gplus-ic"><i class="fa fa-google-plus"> </i></a>
+                                        <a class="li-ic"><i class="fa fa-linkedin"> </i></a>
+                                        <a class="email-ic"><i class="fa fa-envelope-o"> </i></a>
+                                    </div>
+
+                                    <p>{{ category.observation }}</p>
+                                </div>
+                                <a href="{{ path('category_show', {'id': category.id}) }}" class="btn btn-info pull-xs-right">Show</a>
+                            </div>
+                            {% if results['categories'][key + 1] is defined %}
+                                <hr>
+                            {% endif %}
+                            <!--/.Author box-->
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if results['services'] is defined and results['services'] is not empty %}
+                        <hr>
+                        {% for key, service in results['services'] %}
+                            <div class="row">
+                                <!--Name-->
+                                <div class=" col-xs-12 col-sm-10">
+                                    <p><span class="tag green">Service</span> <strong>{{ service.name }}</strong></p>
+
+                                    <div class="personal-sm">
+                                        <a class="email-ic"><i class="fa fa-home"> </i></a>
+                                        <a class="fb-ic"><i class="fa fa-facebook"> </i></a>
+                                        <a class="tw-ic"><i class="fa fa-twitter"> </i></a>
+                                        <a class="gplus-ic"><i class="fa fa-google-plus"> </i></a>
+                                        <a class="li-ic"><i class="fa fa-linkedin"> </i></a>
+                                        <a class="email-ic"><i class="fa fa-envelope-o"> </i></a>
+                                    </div>
+
+                                    <p>{{ service.url }}</p>
+                                </div>
+                                <a href="{{ path('service_show', {'id': service.id}) }}" class="btn btn-info pull-xs-right">Show</a>
+                            </div>
+                            {% if results['services'][key + 1] is defined %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if results['users'] is defined and results['users'] is not empty %}
+                        <hr>
+                        {% for key, user in results['users'] %}
+                            <div class="row">
+                                <!--Name-->
+                                <div class=" col-xs-12 col-sm-10">
+                                    <p><span class="tag black">User</span> <strong>{{ user.username }}</strong></p>
+
+                                    <div class="personal-sm">
+                                        <a class="email-ic"><i class="fa fa-home"> </i></a>
+                                        <a class="fb-ic"><i class="fa fa-facebook"> </i></a>
+                                        <a class="tw-ic"><i class="fa fa-twitter"> </i></a>
+                                        <a class="gplus-ic"><i class="fa fa-google-plus"> </i></a>
+                                        <a class="li-ic"><i class="fa fa-linkedin"> </i></a>
+                                        <a class="email-ic"><i class="fa fa-envelope-o"> </i></a>
+                                    </div>
+
+                                    <p>{{ user.email }}</p>
+                                </div>
+                                {#<a href="{{ path('', {'id': user.id}) }}" class="btn btn-info pull-xs-right">Access</a>#}
+                            </div>
+                            {% if results['users'][key + 1] is defined %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <hr>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

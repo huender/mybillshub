@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container" id="notepads">
+        <h2>Notepad list</h2>
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="md-form">
+                    <input type="text" class="search form-control" placeholder="Search here" />
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <button class="sort btn btn-indigo" data-sort="id">
+                    Sort by id
+                </button>
+                <button class="sort btn btn-indigo" data-sort="annotation">
+                    Sort by annotation
+                </button>
+                <button class="sort btn btn-indigo" data-sort="service">
+                    Sort by service
+                </button>
+            </div>
+        </div>
+        <table id="notepadTable" class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Annotation</th>
+                <th>Service</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody class="list">
+            {% for notepad in notepads %}
+                <tr>
+                    <td class="id"><a href="{{ path('notepad_show', { 'id': notepad.id }) }}">{{ notepad.id }}</a></td>
+                    <td class="annotation">{{ notepad.annotation }}</td>
+                    <td class="service">{% if notepad.service %}{{ notepad.service.name }}{% endif %}</td>
+                    <td>
+                        <a class="blue-text" href="{{ path('notepad_show', { 'id': notepad.id }) }}"><i class="fa fa-user"></i></a>
+                        <a class="teal-text" href="{{ path('notepad_edit', { 'id': notepad.id }) }}"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <ul>
+            <li>
+                <a href="{{ path('notepad_new') }}">Create a new entry</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('node_modules/list.js/dist/list.js') }}"></script>
+    <script>
+        var options = {
+            valueNames: ['id', 'annotation', 'service']
+        };
+
+        var notepadList = new List('notepads', options);
+    </script>
+    <script type="text/javascript" src="{{ asset('plugins/jquery-pagination/scripts/jquery.table.hpaging.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#notepadTable").hpaging({
+                "limit": 10
+            });
+        });
+    </script>
+{% endblock %}

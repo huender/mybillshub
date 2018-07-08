@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="card text-xs-center">
+            <div class="card-header default-color-dark white-text">
+                User
+            </div>
+            <div class="card-block">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Username</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a href="{{ path('user_edit_profile', { 'id': user.id }) }}" class="btn btn-blue-grey">Edit</a>
+            </div>
+            <div class="card-footer text-muted default-color-dark white-text">
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <!--Section: Author box-->
+        <section class="m-b-4">
+
+            <!--Author box-->
+            <div class="author-box">
+
+                <div class="row">
+                    <!--Name-->
+                    <h3 class="h3-responsive text-xs-center">About author</h3>
+                    <hr>
+
+                    <!--Avatar-->
+                    <div class="col-xs-12 col-sm-2">
+                        <img src="{{ asset('placeholder-user.png') }}" class="img-fluid img-circle z-depth-2">
+                    </div>
+
+                    <!--Author Data-->
+                    <div class=" col-xs-12 col-sm-10">
+
+                        <p><strong>Huender Bresolin</strong></p>
+
+                        <div class="personal-sm">
+                            <a class="fb-ic" href="https://www.facebook.com/huenderB" target="_blank"><i class="fa fa-facebook"> </i></a>
+                            <a class="gplus-ic" href="https://plus.google.com/106158658774962321624" target="_blank"><i class="fa fa-google-plus"> </i></a>
+                            <a class="li-ic" href="https://br.linkedin.com/in/huender-muneron-bresolin-602621104" target="_blank"><i class="fa fa-linkedin"> </i></a>
+                            <a class="email-ic" href="mailto:huenderbresolin@gmail.com"><i class="fa fa-envelope-o"> </i></a>
+                        </div>
+
+                        <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.</p>
+                        <p class="hidden-md-down">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint esse nulla quia quam veniam commodi dicta, iusto inventore. Voluptatum pariatur eveniet ea, officiis vitae praesentium beatae quas libero, esse
+                            facere.</p>
+                    </div>
+
+                </div>
+            </div>
+            <!--/.Author box-->
+
+        </section>
+        <!--/Section: Author box-->
+    </div>
+{% endblock %}

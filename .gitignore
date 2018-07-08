@@ -1,0 +1,8 @@
+var/cache/
+var/logs/
+var/sessions/
+vendor/
+**/spool
+/.idea/
+./.idea/
+/app/config/parameters.yml

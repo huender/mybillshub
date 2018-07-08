@@ -1,0 +1,40 @@
+{
+  "name": "mdbootstrap",
+  "version": "4.1.1",
+  "description": "Material Design for Bootstrap (MDB) is a powerful Material Design UI KIT for most popular HTML, CSS, and JS framework - Bootstrap.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mdbootstrap/bootstrap-material-design.git"
+  },
+  "keywords": [
+    "material",
+    "design",
+    "bootstrap",
+    "mdbootstrap",
+    "mdb",
+    "framework",
+    "css",
+    "mobile-first",
+    "responsive"
+  ],
+  "author": {
+    "name": "MDBootstrap"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mdbootstrap/bootstrap-material-design/issues"
+  },
+  "homepage": "https://github.com/mdbootstrap/bootstrap-material-design#readme",
+  "readme": "Material Design for Bootstrap\r\n\r\nVersion: MDB Free 4.1.1\r\n\r\nDocumentation:\r\nhttp://mdbootstrap.com/\r\n\r\nGetting started:\r\nhttp://mdbootstrap.com/getting-started/\r\n\r\nTutorials:\r\nMDB-Bootstrap: http://mdbootstrap.com/bootstrap-tutorial/\r\nMDB-Wordpress: http://mdbootstrap.com/wordpress-tutorial/\r\n\r\nTemplates:\r\nhttp://mdbootstrap.com/templates/\r\n\r\nLicense:\r\nhttp://mdbootstrap.com/license/\r\n\r\nSupport:\r\nhttp://mdbootstrap.com/forums/forum/support/\r\n\r\nContact:\r\noffice@mdbootstrap.com",
+  "readmeFilename": "README.txt",
+  "_id": "mdbootstrap@4.1.1",
+  "dist": {
+    "shasum": "c9d9879062bfe91e930eb8aef1b7e359f9846f33"
+  },
+  "_from": "mdbootstrap@",
+  "_resolved": "https://registry.npmjs.org/mdbootstrap/-/mdbootstrap-4.1.1.tgz"
+}

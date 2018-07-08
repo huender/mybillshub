@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% if form is defined %}
+    {% form_theme form 'form/fields.html.twig' %}
+{% endif %}
+
+{% if edit_form is defined %}
+    {% form_theme edit_form 'form/fields.html.twig' %}
+{% endif %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('mdbootstrap/font/font-awesome-4.6.3/css/font-awesome.min.css') }}">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('mdbootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+    <link href="{{ asset('mdbootstrap/css/mdb.min.css') }}" rel="stylesheet">
+
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('mdbootstrap/css/style.css') }}" rel="stylesheet">
+
+    <title>{% block title %}MyBillsHub{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+    <body>
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        <div style="padding-top: 30px">
+            {% block fos_user_content %}{% endblock fos_user_content %}
+        </div>
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/jquery-2.2.3.min.js') }}"></script>
+
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/tether.min.js') }}"></script>
+
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/bootstrap.min.js') }}"></script>
+
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/mdb.min.js') }}"></script>
+
+        <!-- Jquery blockUI http://malsup.com/jquery/block/ -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/blockUI.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

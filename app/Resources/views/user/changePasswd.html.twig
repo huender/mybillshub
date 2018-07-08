@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="card text-xs-center">
+            <div class="card-header default-color-dark white-text">
+                Change password {{ app.user.username }}
+            </div>
+            <div class="card-block">
+                {{ form_start(form) }}
+                {{ form_row(form.oldPassword) }}
+                {{ form_row(form.newPassword.first) }}
+                {{ form_row(form.newPassword.second) }}
+                <input type="submit" value="Change" class="btn btn-primary btn-sm"/>
+                {{ form_end(form) }}
+            </div>
+            <div class="card-footer text-muted default-color-dark white-text">
+            </div>
+        </div>
+        <a href="{{ path('homepage') }}" class="btn btn-default">Home</a>
+    </div>
+{% endblock %}

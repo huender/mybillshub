@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="card text-xs-center">
+            <div class="card-header default-color-dark white-text">
+                Category edit {{ category.id }}
+            </div>
+            <div class="card-block">
+                {{ form_start(edit_form) }}
+                    {{ form_widget(edit_form) }}
+                    <input type="submit" value="Save" class="btn btn-primary btn-sm"/>
+                {{ form_end(edit_form) }}
+
+            </div>
+            <div class="card-footer text-muted default-color-dark white-text">
+                <p>Created by: <i>{{ category.user.username }}</i></p>
+            </div>
+        </div>
+        <a href="{{ path('category_index') }}" class="btn btn-default">Back to the list</a>
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+        {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,335 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Service
+ *
+ * @ORM\Table(name="service")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceRepository")
+ */
+class Service
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="text", nullable=true)
+     */
+    private $url;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="services", cascade={"Persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @var Category
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="services", cascade={"Persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(name="is_recurrence", type="boolean", nullable=true)
+     */
+    private $isRecurrence;
+
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+
+    /**
+     * @ORM\Column(name="payment_day", type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 31,
+     *      minMessage = "You must be at least {{ limit }} tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }} to enter"
+     * )
+     */
+    private $paymentDay;
+
+    /**
+     * @ORM\Column(name="payment_date", type="date", nullable=true)
+     */
+    private $paymentDate;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notepad", mappedBy="service")
+     */
+    private $notepads;
+
+    public function __construct()
+    {
+        $this->notepads = new ArrayCollection();
+        $this->isActive = false;
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Service
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     *
+     * @return Service
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set isRecurrence
+     *
+     * @param boolean $isRecurrence
+     *
+     * @return Service
+     */
+    public function setIsRecurrence($isRecurrence)
+    {
+        $this->isRecurrence = $isRecurrence;
+
+        return $this;
+    }
+
+    /**
+     * Get isRecurrence
+     *
+     * @return boolean
+     */
+    public function getIsRecurrence()
+    {
+        return $this->isRecurrence;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Service
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \AppBundle\Entity\Category $category
+     *
+     * @return Service
+     */
+    public function setCategory(\AppBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \AppBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set paymentDay
+     *
+     * @param Integer $paymentDay
+     *
+     * @return Service
+     */
+    public function setPaymentDay($paymentDay)
+    {
+        $this->paymentDay = $paymentDay;
+
+        return $this;
+    }
+
+    /**
+     * Get paymentDay
+     *
+     * @return Integer
+     */
+    public function getPaymentDay()
+    {
+        return $this->paymentDay;
+    }
+
+    /**
+     * Add notepad
+     *
+     * @param \AppBundle\Entity\Notepad $notepad
+     *
+     * @return Service
+     */
+    public function addNotepad(\AppBundle\Entity\Notepad $notepad)
+    {
+        $this->notepads[] = $notepad;
+
+        return $this;
+    }
+
+    /**
+     * Remove notepad
+     *
+     * @param \AppBundle\Entity\Notepad $notepad
+     */
+    public function removeNotepad(\AppBundle\Entity\Notepad $notepad)
+    {
+        $this->notepads->removeElement($notepad);
+    }
+
+    /**
+     * Get notepads
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNotepads()
+    {
+        return $this->notepads;
+    }
+
+    function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set paymentDate
+     *
+     * @param \DateTime $paymentDate
+     *
+     * @return Service
+     */
+    public function setPaymentDate($paymentDate)
+    {
+        $this->paymentDate = $paymentDate;
+
+        return $this;
+    }
+
+    /**
+     * Get paymentDate
+     *
+     * @return \DateTime
+     */
+    public function getPaymentDate()
+    {
+        return $this->paymentDate;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Service
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+}

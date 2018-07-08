@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="card text-xs-center">
+            <div class="card-header default-color-dark white-text">
+                Service
+            </div>
+            <div class="card-block">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ service.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ service.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Is recurrence</th>
+                        <td>{% if service.isRecurrence %}Yes{% else %}No{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Date payment</th>
+                        {% if service.isRecurrence %}
+                            <td>{{ service.paymentDay }}</td>
+                        {% else %}
+                            <td>{{ service.paymentDate|date('F d, Y') }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th>Url</th>
+                        <td>{{ service.url }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a href="{{ path('service_index') }}" class="btn btn-default">Back to the list</a>
+                <a href="{{ path('service_edit', { 'id': service.id }) }}" class="btn btn-blue-grey">Edit</a>
+            </div>
+            <div class="card-footer text-muted default-color-dark white-text">
+                <p>Created by: <i>{{ service.user.username }}</i></p>
+            </div>
+        </div>
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+        {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

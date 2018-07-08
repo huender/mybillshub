@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container" id="users">
+        <h2>User list</h2>
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="md-form">
+                    <input type="text" class="search form-control" placeholder="Search here" />
+                </div>
+            </div>
+            <div class="col-xs-9">
+                <button class="sort btn btn-indigo" data-sort="id">
+                    Sort by id
+                </button>
+                <button class="sort btn btn-indigo" data-sort="username">
+                    Sort by username
+                </button>
+                <button class="sort btn btn-indigo" data-sort="email">
+                    Sort by email
+                </button>
+                <button class="sort btn btn-indigo" data-sort="isActive">
+                    Sort by isActive
+                </button>
+                <button class="sort btn btn-indigo" data-sort="roles">
+                    Sort by roles
+                </button>
+            </div>
+        </div>
+        <table id="userTable" class="table">
+            <thead>
+                <th>#</th>
+                <th>username</th>
+                <th>email</th>
+                <th>isActive?</th>
+                <th>roles</th>
+                <th>Actions</th>
+            </thead>
+            <tbody class="list">
+            {% for user in users %}
+                <tr>
+                    <td class="id">{{ user.id }}</td>
+                    <td class="username">{{ user.username }}</td>
+                    <td class="email">{{ user.email }}</td>
+                    <td class="isActive">
+                        {% if user.isActive %}
+                            true
+                        {% else %}
+                            false
+                        {% endif %}
+                    </td>
+                    <td class="roles">{{ user.roles|join(',') }}</td>
+                    <td>
+                        <a href="{{ path('homepage', {'_switch_user': user.username }) }}"><i class="fa fa-user-secret"></i></a>
+                        <a class="blue-text" href="{{ path('user_show_profile', {'id': user.id}) }}"><i class="fa fa-user"></i></a>
+                        <a class="teal-text" href="{{ path('user_edit_profile', {'id': user.id}) }}"><i class="fa fa-pencil"></i></a>
+                        <a class="red-text"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('node_modules/list.js/dist/list.js') }}"></script>
+    <script>
+        var options = {
+            valueNames: ['id', 'username', 'email', 'isActive', 'roles']
+        };
+
+        var userList = new List('users', options);
+    </script>
+    <script type="text/javascript" src="{{ asset('plugins/jquery-pagination/scripts/jquery.table.hpaging.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#userTable").hpaging({
+                "limit": 10
+            });
+        });
+    </script>
+{% endblock %}

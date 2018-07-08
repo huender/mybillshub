@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+{% if form is defined %}
+    {% form_theme form 'form/fields.html.twig' %}
+{% endif %}
+
+{% if edit_form is defined %}
+    {% form_theme edit_form 'form/fields.html.twig' %}
+{% endif %}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{{ asset('mdbootstrap/font/font-awesome-4.6.3/css/font-awesome.min.css') }}">
+
+        <!-- Bootstrap core CSS -->
+        <link href="{{ asset('mdbootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Material Design Bootstrap -->
+        <link href="{{ asset('mdbootstrap/css/mdb.min.css') }}" rel="stylesheet">
+
+        <!-- Your custom styles (optional) -->
+        <link href="{{ asset('mdbootstrap/css/style.css') }}" rel="stylesheet">
+
+        <title>{% block title %}MyBillsHub{% endblock %}</title>
+        <style>
+            .pagination { display: inline-block; }
+
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+
+            .pagination a.active {
+                background-color: #0275D8;
+                color: white;
+            }
+
+            .pagination a:hover:not(.active) { background-color: #ddd; }
+        </style>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <!--Navbar-->
+            <nav class="navbar navbar-dark bg-primary">
+
+                <div class="container">
+
+                    <!--Navbar Brand-->
+                    <a class="navbar-brand waves-effect waves-light" href="{{ path('homepage') }}">
+                        MyBillsHub
+                    </a>
+                    <!--Links-->
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item waves-effect waves-light {% if app.request.get('_route') == 'homepage' %} active {% endif %}">
+                            <a class="nav-link waves-effect waves-light" href="{{ path('homepage') }}">Home</a>
+                        </li>
+                        <li class="nav-item waves-effect waves-light {% if app.request.get('_route') == 'category_index' %} active {% endif %}">
+                            <a id="category" class="nav-link waves-effect waves-light" href="{{ path('category_index') }}">Categories</a>
+                        </li>
+                        <li class="nav-item waves-effect waves-light {% if app.request.get('_route') == 'service_index' %} active {% endif %}">
+                            <a id="category" class="nav-link waves-effect waves-light" href="{{ path('service_index') }}">Services</a>
+                        </li>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <li class="nav-item waves-effect waves-light {% if app.request.get('_route') == 'user_index' %} active {% endif %}">
+                                <a id="user" class="nav-link waves-effect waves-light" href="{{ path('user_index') }}">Users</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item waves-effect waves-light {% if app.request.get('_route') == 'notepad' %} active {% endif %}">
+                            <a class="nav-link waves-effect waves-light" href="{{ path('notepad_index') }}">Notepad</a>
+                        </li>
+                        {#<li class="nav-item waves-effect waves-light {% if app.request.get('_route') == 'about' %} active {% endif %}">#}
+                            {#<a class="nav-link waves-effect waves-light" href="{{ path('about') }}">About</a>#}
+                        {#</li>#}
+                        <li class="nav-item waves-effect waves-light {% if app.request.get('_route') == 'search' %} active {% endif %}">
+                            <form class="form-inline waves-effect waves-light" action="{{ path('search') }}">
+                                <input class="form-control" type="text" placeholder="Search" name="search" value="{{ app.session.get('search_term') }}">
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                            </form>
+                        </li>
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</button>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ path('user_show_profile', {'id': app.user.id}) }}">View profile</a>
+                                <a class="dropdown-item" href="{{ path('user_edit_profile', {'id': app.user.id}) }}">Edit profile</a>
+                                <a class="dropdown-item" href="{{ path('user_change_password', {'id': app.user.id}) }}">Change password</a>
+                                <div class="dropdown-divider"></div>
+                                {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                                    <a class="dropdown-item" href="{{ path('homepage', {'_switch_user': '_exit'}) }}">Exit impersonation <i class="fa fa-power-off"></i></a>
+                                {% else %}
+                                    <a class="dropdown-item" href="{{ path('logout') }}">Logout <i class="fa fa-power-off"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </ul>
+                    <!--Search form-->
+                </div>
+
+            </nav>
+            <!--/.Navbar-->
+        {% endif %}
+
+        {#<div style="height: 100px">#}
+            {#<div class="flex-center">#}
+                {#<h1 class="animated fadeIn">Material Design</h1>#}
+            {#</div>#}
+        {#</div>#}
+        <div style="padding-top: 30px">
+            {% block body %}{% endblock %}
+        </div>
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/jquery-2.2.3.min.js') }}"></script>
+
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/tether.min.js') }}"></script>
+
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/bootstrap.min.js') }}"></script>
+
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/mdb.min.js') }}"></script>
+
+        <!-- Jquery blockUI http://malsup.com/jquery/block/ -->
+        <script type="text/javascript" src="{{ asset('mdbootstrap/js/blockUI.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
