@@ -1,21 +1,24 @@
 # MyBillsHub
 
-> * PHP 7
-> * Symfony 3
-> * Herokuapp
+> * Symfony 3.4
+> * PostgreSQL
+> * PHP 7.2
 
 # About
 
-Projeto apenas para fins de estudo.
-Organizador de pagamentos por categoria, com possibilidade de informar a url de acesso para obtenção dos boletos de pagamentos. 
-Além do informativo de data, para pagamentos únicos, assim como o dia específico, para pagamentos recorrentes.
-Funcionalidade de bloco de notas, apenas para observações.
+Only for study purposes.
+Payments organizer, informing the access url to obtain the payment tickets. 
+Possibility for single payments (specific day) and recurring payments (every month).
+Notepad functionality, for comments purpose.
 
 # Installation
 
 ```bash
 # Clone repository
+git clone https://github.com/HuenderBr/mybillshub.git
+
 # Access project folder
+cd mybillshub
 
 # Install dependencies
 composer install
