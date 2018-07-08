@@ -2,11 +2,11 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:     host
-    database_port:     port
-    database_name:     name
-    database_user:     user
-    database_password: password
+    database_host:     localhost
+    database_port:     5432
+    database_name:     mybillshub
+    database_user:     postgres
+    database_password: postgres
 
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
