@@ -7,17 +7,17 @@ php:
 phpunit:
   - "7"
 
-# Faz a instalação com Sudo, para ter privilégio de Super Usuário.
 sudo: required
 
-# Instalação de Módulos que são necessários para a Aplicação.
 install:
   - composer install
   - php bin/console assets:install
 
-# Defini o script de Teste que deve rodar toda vez que o código for alterado.
+before_script:
+  - curl -sSfL -o phpunit https://phar.phpunit.de/phpunit-7.phar
+  
 script:
-  - php ./phpunit symfony
+  - php phpunit symfony
 
 # Defini que o processo de Deploy será na Plataforma Heroku. É necessário informar o nome da APP criada no Heroku
 #deploy:
