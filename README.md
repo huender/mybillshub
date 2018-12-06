@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/HuenderBr/mybillshub.svg?branch=master)](https://travis-ci.org/HuenderBr/mybillshub)
+
 # MyBillsHub
 
 > * Symfony 3.4
