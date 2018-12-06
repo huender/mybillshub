@@ -2,8 +2,10 @@
 language: php
 
 # Versão que a aplicação suporta.
-python:
+php:
   - "7.2"
+phpunit:
+  - "7"
 
 # Faz a instalação com Sudo, para ter privilégio de Super Usuário.
 sudo: required
