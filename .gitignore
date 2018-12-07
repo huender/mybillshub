@@ -7,3 +7,4 @@ vendor/
 ./.idea/
 /app/config/parameters.yml
 web/bundles/
+phpunit
