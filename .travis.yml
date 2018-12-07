@@ -12,6 +12,9 @@ sudo: required
 install:
   - composer install
   - php bin/console assets:install
+  - php bin/console cache:clear
+  - php bin/console cache:warmup
+  - sudo chmod 777 -R var/cache var/logs var/sessions
 
 before_script:
   - curl -sSfL -o phpunit https://phar.phpunit.de/phpunit-7.phar
